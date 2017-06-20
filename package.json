@@ -1,0 +1,31 @@
+{
+  "name": "chromonodes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watcher": "node_modules/.bin/webpack --watch",
+    "server": "node .",
+    "start": "server && watcher"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Made-of-Clay/chromonodes.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Made-of-Clay/chromonodes/issues"
+  },
+  "homepage": "https://github.com/Made-of-Clay/chromonodes#readme",
+  "dependencies": {
+    "express": "^4.15.3",
+    "socket.io": "^2.0.3"
+  },
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.0",
+    "babel-preset-env": "^1.5.2",
+    "webpack": "^3.0.0"
+  }
+}
