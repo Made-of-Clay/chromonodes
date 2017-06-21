@@ -1,9 +1,12 @@
 "use strict";
 
-import { Foo } from './foo.js';
+import './rAF-polyfill.js';
+import animate from './animate.js';
 
-var foo = new Foo();
+animate();
 
-console.log('foo instance', foo);
-
-console.log('Hello world!');
+/*
+- get rAF running
+- rAF checks Truth object for draws
+- 
+ */
