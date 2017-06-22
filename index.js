@@ -4,7 +4,7 @@
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
-const url = require('url');
+// const url = require('url');
 const io = require('socket.io')(http);
 const getAddresses = require('./src/scripts/server/addresses');
 const fs = require('fs');
@@ -16,13 +16,24 @@ function serveIndex(req, res) {
     res.sendFile(`${__dirname}/index.html`);
 }
 
-app.get('/assets/socket.io.js', (req, res) => {
-    var path = __dirname + '/node_modules/socket.io-client/dist/socket.io.js';
-    if (fs.existsSync(path)) {
-        res.sendFile(path);
-    } else {
-        res.status(404).end();
-    }
+const nodeAssets = [{
+    uri: '/assets/socket.io.js',
+    path: __dirname + '/node_modules/socket.io-client/dist/socket.io.js'
+}, {
+    uri: '/assets/pixi.js',
+    path: __dirname + '/node_modules/pixi.js/dist/pixi.js'
+}, {
+    uri: '/assets/pixi.min.js',
+    path: __dirname + '/node_modules/pixi.js/dist/pixi.min.js'
+}];
+nodeAssets.forEach(asset => {
+    app.get(asset.uri, (req, res) => {
+        if (fs.existsSync(asset.path)) {
+            res.sendFile(asset.path);
+        } else {
+            res.status(404).end();
+        }
+    });
 });
 
 app.get('/dist/:dir/:file', (req, res) => {
@@ -38,10 +49,3 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => console.log('A user has disconnected'));
     console.log('A user has connected');
 });
-
-function simpleConnect () {
-    console.log('A user has connected');
-}
-function simpleDisconnect () {
-    console.log('A user has disconnected');
-}
