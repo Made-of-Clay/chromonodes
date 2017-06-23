@@ -2,16 +2,22 @@
 <html>
 <head>
     <title>Chromonodes</title>
+    <style>
+        canvas {
+            outline: 1px dashed red;
+        }
+    </style>
 </head>
 <body>
 
-<aside id="controls"></aside>
+<div id="wrapper">
+    <aside id="controls"></aside>
+    
+    <p>Canvas shows by default; controls hidden in drawer &amp; shown using toggle icon</p>
 
-<canvas id="playground"></canvas>
+    <p>user touches screen and node is created in their spot with their color; if other nodes exist, draw line(s) to 2 closes nodes</p>
+</div>
 
-<p>Canvas shows by default; controls hidden in drawer &amp; shown using toggle icon</p>
-
-<p>user touches screen and node is created in their spot with their color; if other nodes exist, draw line(s) to 2 closes nodes</p>
 
 <script src="/assets/socket.io.js"></script>
 <script src="/assets/pixi.js"></script>

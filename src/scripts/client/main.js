@@ -1,13 +1,31 @@
 "use strict";
 
 import './rAF-polyfill.js';
-import { animate, guid } from './utils.js';
+import { guid } from './utils.js';
 import state from './state.js';
+import canvasSetup from './canvas-setup.js';
 
-animate();
+let app = {
+    draw() {
+        let time;
+        let controls = document.getElementById('controls');
+        time = new Date();
+        controls.innerText = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}.${time.getMilliseconds()}`;
+    }
+};
+
+Promise.resolve(app)
+    .then(canvasSetup)
+    .then(() => animate())
+    .catch(thrown => console.error('%cAn error occurred:', 'font-weight:bold', thrown))
+;
+
+function animate() {
+    app.draw();
+    requestAnimationFrame(animate);
+}
 
 /*
-TODO: setup pixi canvas
 TODO: create user on page load
 -- assign color and guid to user
 -- push user to state object
