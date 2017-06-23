@@ -21,6 +21,7 @@ Promise.resolve(app)
     .then(addUser)
     .then(canvasSetup)
     .then(() => animate())
+    .then(() => console.log("state", state))
     .catch(thrown => console.error('%cAn error occurred:', 'font-weight:bold', thrown))
 ;
 
@@ -30,7 +31,7 @@ function animate() {
 }
 function addUser(app) {
     let userID = guid();
-    app.state[userID] = {
+    app.state.users[userID] = {
         color: randomHex()
     };
     return app;
