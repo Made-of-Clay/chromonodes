@@ -25,6 +25,9 @@ const nodeAssets = [{
 }, {
     uri: '/assets/pixi.min.js',
     path: __dirname + '/node_modules/pixi.js/dist/pixi.min.js'
+}, {
+    uri: '/assets/fabric.js',
+    path: __dirname + '/node_modules/fabric/dist/fabric.js'
 }];
 nodeAssets.forEach(asset => {
     app.get(asset.uri, (req, res) => {
