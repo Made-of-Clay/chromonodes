@@ -6,6 +6,7 @@ import { guid, randomHex } from './utils.js';
 import state from './state.js';
 import canvasSetup from './canvas-setup.js';
 
+let renderer;
 let app = {
     state,
 
@@ -14,70 +15,21 @@ let app = {
         let controls = document.getElementById('controls');
         time = new Date();
         controls.innerText = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}.${time.getMilliseconds()}`;
-        // testo(this);
-        if (this.canvas) {
-            this.canvas.renderAll();
+        
+        this.renderer.clear();
+        if (this.state.nodes.length) {
+            this.state.nodes.forEach(node => {
+                // check if node.userID matches userID
+                // if so, use coords for circle; get node color from state.user[userID].color
+            })
         }
     },
 };
-function testo(app) {
-    window.rect = new fabric.Rect({ // TODO: move this logic to more appropriate place
-        left: 100,
-        top: 100,
-        fill: 'red',
-        width: 60,
-        height: 60,
-        hasControls: false
-    });
-
-    app.canvas.add(rect);
-console.log("app.canvas", app.canvas);
-    app.canvas.on({
-        // 'object:moving': ({target:{top, left}}) => console.log(top, left),
-        // 'mouse:down': event => console.log(event),
-        // 'mouse:down': event => addRect(app.canvas, event.e.screenX, event.e.screenY, event),
-        'mouse:down': event => {
-            console.log('event', event);
-            if (event.e.touches) {
-                output(`${JSON.stringify(event.e.touches)}`);
-            }
-            output(`mousedown: x${event.e.pageX} y${event.e.pageY}`);
-            if (!event.target) {
-                addRect(app.canvas, event.e.pageX, event.e.pageY)
-            }
-        },
-    });
-    window.addEventListener('touchend', creation);
-    window.addEventListener('mouseup', creation);
-    function creation(event) {
-        let str = `norm pageX: ${event.pageX}`;
-        if (event.touches) {
-            str += `<br> norm touches: ${JSON.stringify(event.touches)}`;
-        }
-        output(str);
-    }
-}
-function output(str) {
-    document.getElementById('output').innerHTML += `<br>${str}`;
-}
-function addRect(canvas, left, top) {
-    console.log('arguments', arguments);
-    let opts = {
-        left,
-        top,
-        fill: 'blue',
-        width: 60,
-        height: 60,
-        hasControls: false
-    };
-    let newRect = new fabric.Rect(opts);
-    canvas.add(newRect);
-}
 
 Promise.resolve(app)
     .then(addUser)
     .then(canvasSetup)
-    .then((app) => testo(app))
+    // .then((app) => testo(app))
     .then(() => animate())
     .then(() => console.log("state", state))
     .catch(thrown => console.error('%cAn error occurred:', 'font-weight:bold', thrown))
@@ -89,12 +41,19 @@ function animate() {
 }
 function addUser(app) {
     let userID = guid();
-    app.state.users[userID] = {
-        color: randomHex()
+    let color = randomHex();
+    app.state.users[userID] = { color };
+
+    app.state.currentUser = {
+        userID, color
     };
+
     return app;
 }
-
+function output(str) {
+    document.getElementById('output').innerHTML += `<br>${str}`;
+}
+window.getState = () => console.log('app.state', app.state);
 /*
 TODO: get touch-add working
 -- create node using user's color

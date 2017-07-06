@@ -4,7 +4,11 @@
 export default {
     nodes: [],
     connections: [],
-    users: {}
+    users: {},
+    currentUser: {
+        userID: '',
+        color: ''
+    }
 };
 
 /*
