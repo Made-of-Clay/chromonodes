@@ -38,11 +38,27 @@ console.log("app.canvas", app.canvas);
         // 'mouse:down': event => addRect(app.canvas, event.e.screenX, event.e.screenY, event),
         'mouse:down': event => {
             console.log('event', event);
+            if (event.e.touches) {
+                output(`${JSON.stringify(event.e.touches)}`);
+            }
+            output(`mousedown: x${event.e.pageX} y${event.e.pageY}`);
             if (!event.target) {
                 addRect(app.canvas, event.e.pageX, event.e.pageY)
             }
         },
     });
+    window.addEventListener('touchend', creation);
+    window.addEventListener('mouseup', creation);
+    function creation(event) {
+        let str = `norm pageX: ${event.pageX}`;
+        if (event.touches) {
+            str += `<br> norm touches: ${JSON.stringify(event.touches)}`;
+        }
+        output(str);
+    }
+}
+function output(str) {
+    document.getElementById('output').innerHTML += `<br>${str}`;
 }
 function addRect(canvas, left, top) {
     console.log('arguments', arguments);
