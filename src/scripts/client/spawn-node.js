@@ -16,6 +16,13 @@ export default function spawnNode(app, event) {
             color: app.state.currentUser.color,
             canvas: app.canvas
         });
+        let currentUser = app.state.currentUser;
+        app.state.nodes.push({
+            color: currentUser.color,
+            coords: centered,
+            userID: currentUser.userID,
+        });
+        return centered;
     }
 }
 

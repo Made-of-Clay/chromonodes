@@ -1,6 +1,7 @@
 "use strict";
 /*  */
 import spawnNode from './spawn-node.js';
+import nearestNodes from './find-nearest-nodes.js';
 
 let canvas;
 
@@ -16,7 +17,14 @@ export default function canvasSetup(app) {
     app.canvas = canvas;
 
     canvas.on({
-        'mouse:down': event => spawnNode(app, event)
+        'mouse:down': event => {
+            let coords = spawnNode(app, event);
+            if (coords) {
+                // find nearest 2 nodes
+                let nearestNodes = findNearestNodes(app);
+                // draw lines
+            }
+        }
     });
 
     return app;
