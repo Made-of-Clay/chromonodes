@@ -10,7 +10,8 @@ export default function findNearestNodes(app) {
     nodes.forEach(node => {
         // set diff.x and diff.y
         if (coordsAreNull(closest)) {
-            //
+            closest.x = node.coords.x;
+            closest.y = node.coords.y;
         } else {
             // 1st node checked - add as closest
         }
