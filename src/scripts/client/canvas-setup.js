@@ -2,6 +2,7 @@
 /*  */
 import spawnNode from './spawn-node.js';
 import NearestNodes from './find-nearest-nodes.js';
+import drawLine from './draw-line.js';
 
 let canvas;
 
@@ -21,20 +22,17 @@ export default function canvasSetup(app) {
         'mouse:down': event => {
             let node = spawnNode(app, event);
             if (node) {
-                // find nearest 2 nodes
-                // let nearestNodes = findNearestNodes(app, coords);
-                // let nearestNodes = nearestNodes.findClosestTo(coords);
-                //////////////////////////////////////////////////
-                //////////////////////////////////////////////////
-                /// need to calc closest 
-                //////////////////////////////////////////////////
-                //////////////////////////////////////////////////
                 let nn = nearestNodes.findClosestTo(node);
                 console.log(
                     'closest', nn.closest,
                     'nextClosest', nn.nextClosest
                 );
                 // draw lines
+                // draw line from node.xy to closest.xy
+                // draw line from node.xy to nextClosest.xy
+                // save drawn lines to connections in state
+                drawLine(app, event, node, nn.closest);
+                drawLine(app, event, node, nn.nextClosest);
             }
         }
     });

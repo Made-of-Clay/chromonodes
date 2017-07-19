@@ -1,6 +1,8 @@
 "use strict";
 /* globals Math */
 
+import { coordsAreNull } from './utils.js';
+
 const emptyCoords = () => { return { x:null, y:null }; };
 let closest = emptyCoords();
 let nextClosest = emptyCoords();
@@ -49,12 +51,6 @@ export default class NearestNodes {
     }
 }
 
-function isNull(value) {
-    return value === null;
-}
-function coordsAreNull(obj) {
-    return isNull(obj.x) && isNull(obj.y);
-}
 function distance({x:x1, y:y1}, {x:x2, y:y2}) {
     return Math.sqrt(
         Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2)
