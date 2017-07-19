@@ -13,3 +13,7 @@ export function guid() {
 export function randomHex() {
     return '#' + Math.floor(Math.random()*16777215).toString(16);
 }
+
+export function getDistance(coords1, coords2) {
+    return Math.sqrt(Math.pow((coords1.x - coords2.x), 2) + Math.pow((coords1.y - coords2.y), 2));
+}

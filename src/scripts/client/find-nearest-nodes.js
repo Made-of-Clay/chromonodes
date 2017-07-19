@@ -1,25 +1,52 @@
 "use strict";
 /* globals Math */
 
-export default function findNearestNodes(app) {
-    let nodes = app.state.nodes;
-    let diff = { x:null, y:null };
-    let closest = Object.assign({}, diff);
-    let nextClosest = Object.assign({}, diff);
-    // loop each node
-    nodes.forEach(node => {
-        // set diff.x and diff.y
-        if (coordsAreNull(closest)) {
-            closest.x = node.coords.x;
-            closest.y = node.coords.y;
-        } else {
-            // 1st node checked - add as closest
-        }
-        // set sum and node object
-        // compare next sum to saved sums - save the lowest sum
-    });
-    // once finished, return stored object
-    return { closest, nextClosest };
+const emptyCoords = () => { return { x:null, y:null }; };
+let closest = emptyCoords();
+let nextClosest = emptyCoords();
+
+export default class NearestNodes {
+    constructor(app) {
+        // this.app = app;
+        this.nodes = app.state.nodes;
+    }
+
+    // only using getter/setter pattern in case I pass object to set coords and it has more than x/y
+    get closest() {
+        return closest;
+    }
+    set closest({x, y}) {
+        closest.x = x;
+        closest.y = y;
+    }
+    get nextClosest() {
+        return nextClosest;
+    }
+    set nextClosest({x, y}) {
+        nextClosest.x = x;
+        nextClosest.y = y;
+    }
+
+    findClosestTo({centered:coords, nodeID}) {
+        this.nodes.forEach(tmpNode => {
+            if (nodeID === tmpNode.nodeID) return;
+
+            if (coordsAreNull(this.closest)) {
+                this.closest = Object.assign({ nodeID: tmpNode.nodeID }, tmpNode.coords);
+            } else if (distance(coords, this.closest) > distance(coords, tmpNode.coords)) {
+                    this.nextClosest = this.closest;
+                    this.closest = Object.assign({ nodeID: tmpNode.nodeID }, tmpNode.coords);
+            } else if (coordsAreNull(this.nextClosest) || 
+                       distance(coords, this.nextClosest) > distance(coords, tmpNode.coords)) {
+
+                this.nextClosest = Object.assign({ nodeID: tmpNode.nodeID }, tmpNode.coords);
+            }
+        });
+        return {
+            closest: this.closest,
+            nextClosest: this.nextClosest,
+        };
+    }
 }
 
 function isNull(value) {
@@ -28,7 +55,8 @@ function isNull(value) {
 function coordsAreNull(obj) {
     return isNull(obj.x) && isNull(obj.y);
 }
-function compareCoords(obj1, obj2) {
-    let diffX = Math.abs(obj1.x - obj2.x);
-    let diffY = Math.abs(obj1.y - obj2.y);
+function distance({x:x1, y:y1}, {x:x2, y:y2}) {
+    return Math.sqrt(
+        Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2)
+    );
 }

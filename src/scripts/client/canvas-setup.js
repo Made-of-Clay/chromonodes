@@ -1,11 +1,12 @@
 "use strict";
 /*  */
 import spawnNode from './spawn-node.js';
-import nearestNodes from './find-nearest-nodes.js';
+import NearestNodes from './find-nearest-nodes.js';
 
 let canvas;
 
 export default function canvasSetup(app) {
+    const nearestNodes = new NearestNodes(app);
     canvas = new fabric.Canvas('stage');
 
     fabric.Group.prototype.hasControls = false;
@@ -18,10 +19,21 @@ export default function canvasSetup(app) {
 
     canvas.on({
         'mouse:down': event => {
-            let coords = spawnNode(app, event);
-            if (coords) {
+            let node = spawnNode(app, event);
+            if (node) {
                 // find nearest 2 nodes
-                let nearestNodes = findNearestNodes(app);
+                // let nearestNodes = findNearestNodes(app, coords);
+                // let nearestNodes = nearestNodes.findClosestTo(coords);
+                //////////////////////////////////////////////////
+                //////////////////////////////////////////////////
+                /// need to calc closest 
+                //////////////////////////////////////////////////
+                //////////////////////////////////////////////////
+                let nn = nearestNodes.findClosestTo(node);
+                console.log(
+                    'closest', nn.closest,
+                    'nextClosest', nn.nextClosest
+                );
                 // draw lines
             }
         }

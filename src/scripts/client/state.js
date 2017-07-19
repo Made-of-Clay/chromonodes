@@ -16,7 +16,8 @@ e.g.
 {
     nodes: [{
         userID: 'guid',
-        coords: [{ x:0, y:0 }]
+        coords: [{ x:0, y:0 }],
+        nodeID: 'guid'
     }],
     connections: [{
         e1: { x:0, y:0 },
