@@ -3,7 +3,7 @@
 
 import { coordsAreNull } from './utils.js';
 
-const emptyCoords = () => { return { x:null, y:null }; };
+const emptyCoords = () => { return { x:null, y:null, nodeID:'' }; };
 let closest = emptyCoords();
 let nextClosest = emptyCoords();
 
@@ -17,19 +17,22 @@ export default class NearestNodes {
     get closest() {
         return closest;
     }
-    set closest({x, y}) {
+    set closest({x, y, nodeID}) {
         closest.x = x;
         closest.y = y;
+        closest.nodeID = nodeID;
     }
     get nextClosest() {
         return nextClosest;
     }
-    set nextClosest({x, y}) {
+    set nextClosest({x, y, nodeID}) {
         nextClosest.x = x;
         nextClosest.y = y;
+        nextClosest.nodeID = nodeID;
     }
 
-    findClosestTo({centered:coords, nodeID}) {
+    findClosestTo({x, y, nodeID}) {
+        let coords = { x, y };
         this.nodes.forEach(tmpNode => {
             if (nodeID === tmpNode.nodeID) return;
 

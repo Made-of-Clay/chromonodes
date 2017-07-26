@@ -27,7 +27,11 @@ export default function spawnNode(app, event) {
             userID: currentUser.userID,
             nodeID
         });
-        return { centered, nodeID };
+        return {
+            x: centered.x,
+            y: centered.y,
+            nodeID
+        };
     }
 }
 

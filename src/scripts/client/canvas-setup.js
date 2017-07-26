@@ -22,17 +22,19 @@ export default function canvasSetup(app) {
         'mouse:down': event => {
             let node = spawnNode(app, event);
             if (node) {
-                let nn = nearestNodes.findClosestTo(node);
+                let nodes = nearestNodes.findClosestTo(node);
+                console.log("nodes", nodes);
                 console.log(
-                    'closest', nn.closest,
-                    'nextClosest', nn.nextClosest
+                    'closest', nodes.closest,
+                    'nextClosest', nodes.nextClosest
                 );
                 // draw lines
                 // draw line from node.xy to closest.xy
                 // draw line from node.xy to nextClosest.xy
                 // save drawn lines to connections in state
-                drawLine(app, event, node, nn.closest);
-                drawLine(app, event, node, nn.nextClosest);
+
+                drawLine(app, event, node, nodes.closest);
+                drawLine(app, event, node, nodes.nextClosest);
             }
         }
     });
