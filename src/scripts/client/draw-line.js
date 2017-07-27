@@ -10,16 +10,14 @@ import { coordsAreNull } from './utils.js';
 export default function drawLine(app, event, startNode, endNode) { // TODO remove event param?
     if (coordsAreNull(endNode)) return;
 
-console.log("startNode", startNode);
-console.log("endNode", endNode);
     let lineColor = '#000000';
+    let offset = 50;
     let coords = [
-        startNode.x,
-        startNode.y,
-        endNode.x,
-        endNode.y,
+        (startNode.x + offset),
+        (startNode.y + offset),
+        (endNode.x + offset),
+        (endNode.y + offset),
     ];
-console.log("coords", coords);
 
     addLine(coords, lineColor, app.canvas);
 }
@@ -30,7 +28,7 @@ function addLine(coords, color, canvas) {
         strokeWidth: 5,
         selectable: false,
     });
-console.log("line", line);
 
     canvas.add(line);
+    canvas.sendToBack(line);
 }
