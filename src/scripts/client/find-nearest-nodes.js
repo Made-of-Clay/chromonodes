@@ -33,20 +33,28 @@ export default class NearestNodes {
 
     findClosestTo({x, y, nodeID}) {
         let coords = { x, y };
-        this.nodes.forEach(tmpNode => {
+        let self = this;
+
+        for (let key in this.nodes) {
+            loopAction(this.nodes[key])
+        }
+
+        // this.nodes.forEach(tmpNode => {
+        function loopAction(tmpNode) {
             if (nodeID === tmpNode.nodeID) return;
 
-            if (coordsAreNull(this.closest)) {
-                this.closest = Object.assign({ nodeID: tmpNode.nodeID }, tmpNode.coords);
-            } else if (distance(coords, this.closest) > distance(coords, tmpNode.coords)) {
-                    this.nextClosest = this.closest;
-                    this.closest = Object.assign({ nodeID: tmpNode.nodeID }, tmpNode.coords);
-            } else if (coordsAreNull(this.nextClosest) || 
-                       distance(coords, this.nextClosest) > distance(coords, tmpNode.coords)) {
+            if (coordsAreNull(self.closest)) {
+                self.closest = Object.assign({ nodeID: tmpNode.nodeID }, tmpNode.coords);
+            } else if (distance(coords, self.closest) > distance(coords, tmpNode.coords)) {
+                    self.nextClosest = self.closest;
+                    self.closest = Object.assign({ nodeID: tmpNode.nodeID }, tmpNode.coords);
+            } else if (coordsAreNull(self.nextClosest) || 
+                       distance(coords, self.nextClosest) > distance(coords, tmpNode.coords)) {
 
-                this.nextClosest = Object.assign({ nodeID: tmpNode.nodeID }, tmpNode.coords);
+                self.nextClosest = Object.assign({ nodeID: tmpNode.nodeID }, tmpNode.coords);
             }
-        });
+        }
+        // });
         return {
             closest: this.closest,
             nextClosest: this.nextClosest,

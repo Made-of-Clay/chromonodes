@@ -21,12 +21,17 @@ export default function spawnNode(app, event) {
             nodeID
         });
         let currentUser = app.state.currentUser;
-        app.state.nodes.push({
+        // app.state.nodes.push({
+        //     color: currentUser.color,
+        //     coords: centered,
+        //     userID: currentUser.userID,
+        //     nodeID
+        // });
+        app.state.nodes[nodeID] = {
             color: currentUser.color,
             coords: centered,
             userID: currentUser.userID,
-            nodeID
-        });
+        };
         return {
             x: centered.x,
             y: centered.y,

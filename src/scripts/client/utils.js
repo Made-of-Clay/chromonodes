@@ -21,6 +21,9 @@ export function getDistance(coords1, coords2) {
 export function isNull(value) {
     return value === null;
 }
+export function isArray(value) {
+    return Array.isArray(value);
+}
 
 export function coordsAreNull(obj) {
     return isNull(obj.x) && isNull(obj.y);

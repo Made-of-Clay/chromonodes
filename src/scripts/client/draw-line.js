@@ -1,7 +1,7 @@
 "use strict";
 /* globals console */
 
-import { coordsAreNull } from './utils.js';
+import { coordsAreNull, guid, isArray } from './utils.js';
 
 // Things needed to draw lines
 // - color
@@ -19,11 +19,28 @@ export default function drawLine(app, event, startNode, endNode) { // TODO remov
         (endNode.y + offset),
     ];
 
-    addLine(coords, lineColor, app.canvas);
+    let lineStore = {
+        start: {
+            x: startNode.x,
+            y: startNode.y,
+            nodeID: startNode.nodeID,
+        },
+        end: {
+            x: endNode.x,
+            y: endNode.y,
+            nodeID: endNode.nodeID,
+        },
+    };
+    let line = addLine(coords, lineColor, app.canvas);
+
+    updateState(line.lineID, app.state.nodes[startNode.nodeID], app.state.nodes[endNode.nodeID]);
+
+    return line;
 }
 
 function addLine(coords, color, canvas) {
     let line = new fabric.Line(coords, {
+        id: guid(),
         stroke: color,
         strokeWidth: 5,
         selectable: false,
@@ -31,4 +48,22 @@ function addLine(coords, color, canvas) {
 
     canvas.add(line);
     canvas.sendToBack(line);
+    return line;
+}
+
+function updateState(lineID, storedStartNode, storedEndNode) {
+    if (!isArray(storedStartNode.lines)) {
+        storedStartNode.lines = [];
+    }
+    if (!isArray(storedEndNode.lines)) {
+        storedEndNode.lines = [];
+    }
+    storedStartNode.lines.push({
+        lineID: line.lineID,
+        point: 'start'
+    });
+    storedEndNode.lines.push({
+        lineID: line.lineID,
+        point: 'end'
+    });
 }

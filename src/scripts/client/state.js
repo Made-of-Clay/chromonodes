@@ -2,7 +2,8 @@
 
 // The Truth!
 export default {
-    nodes: [],
+    // nodes: [],
+    nodes: {},
     connections: [],
     users: {},
     currentUser: {
@@ -14,11 +15,18 @@ export default {
 /*
 e.g. 
 {
-    nodes: [{
+    nodes: [{ // ORIG
         userID: 'guid',
         coords: [{ x:0, y:0 }],
         nodeID: 'guid'
     }],
+    nodes: { // ALT
+        nodeID: {
+            userID: 'guid',
+            coords: [{ x:0, y:0 }],
+            color: ''
+        }
+    },
     connections: [{
         e1: { x:0, y:0 },
         e2: { x:0, y:0 },

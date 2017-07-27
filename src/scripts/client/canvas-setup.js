@@ -28,16 +28,18 @@ export default function canvasSetup(app) {
                     'closest', nodes.closest,
                     'nextClosest', nodes.nextClosest
                 );
-                // draw lines
-                // draw line from node.xy to closest.xy
-                // draw line from node.xy to nextClosest.xy
-                // save drawn lines to connections in state
 
-                drawLine(app, event, node, nodes.closest);
-                drawLine(app, event, node, nodes.nextClosest);
+                let closestLine = drawLine(app, event, node, nodes.closest);
+                // app.state.nodes[node.nodeID].
+                let nextClosestLine = drawLine(app, event, node, nodes.nextClosest);
             }
         }
     });
+    // object:move gives object as e.target (check that it's a node)
+    // get node from app.state[node.nodeID]
+    // loop node.lines (array of objects)
+    // each line: get app.state.connections[lineID]
+    // update matched line according to node.lines[x].point (start|end)
 
     return app;
 }
@@ -53,3 +55,19 @@ function resizeCanvas() {
 
 //     return app;
 // }
+
+////////////////////////////////////////
+///
+///   0-------O         0 = start   O = end
+/// 
+/// line properties: x1, y1, startNodeID, x2, y2, endNodeID, lineID (color, stroke, etc...)
+/// When some node updates position, use lineID (stored on node?)
+/// to fetch line from store (by lineID) and update it's x/y
+///
+
+
+
+//////////////////// ALT //////////////////////
+///
+/// circle created
+///
